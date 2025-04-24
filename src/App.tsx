@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import PollView from "./components/PollView";
+import { Poll } from ".";
+import CreatePollForm from "./components/CreatePollForm";
+import PollsList from "./components/PollList";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [currentPoll, setCurrentPoll] = useState<Poll | null>(null);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="max-w-4xl mx-auto p-5 font-sans">
+      <h1 className="text-2xl font-bold mb-6">
+        Sistema de Enquetes em Tempo Real
+      </h1>
 
-export default App
+      {currentPoll ? (
+        <PollView poll={currentPoll} onBack={() => setCurrentPoll(null)} />
+      ) : (
+        <div className="flex gap-5 flex-col md:flex-row">
+          <div className="section">
+            <h2 className="text-xl font-semibold mb-4">Criar Nova Enquete</h2>
+            <CreatePollForm onPollCreated={() => {}} />
+          </div>
+
+          <div className="section">
+            <h2 className="text-xl font-semibold mb-4">Enquetes Disponíveis</h2>
+            <PollsList onSelectPoll={setCurrentPoll} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default App;
